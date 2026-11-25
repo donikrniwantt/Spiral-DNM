@@ -1,30 +1,43 @@
 @echo off
-echo start
+setlocal EnableExtensions
+set "ROOT=%~dp0"
+set "EXE_DIR=%ROOT%exe"
+set "MISSING=0"
 
-echo "Starting Server"
+echo Checking Dragon Nest Mobile server package...
 
-REM Переход в папку exe/
-cd exe/
+for %%F in (audioserver.exe loginserver.exe dbserver.exe gameserver.exe gateserver.exe masterserver.exe controlserver.exe versionserver.exe) do (
+    if not exist "%EXE_DIR%\%%F" (
+        echo [MISSING] exe\%%F
+        set "MISSING=1"
+    )
+)
 
-REM Запуск серверов с указанием путей к конфигурационным файлам
-start /MIN audioserver.exe conf/audio_conf.xml
-start /MIN loginserver.exe conf/login_conf.xml
-start /MIN dbserver.exe conf/db_conf.xml
-start /MIN gameserver.exe conf/gs_conf.xml
-start /MIN gateserver.exe conf/gate_conf.xml
-start /MIN masterserver.exe conf/ms_conf.xml
-start /MIN controlserver.exe conf/ctrl_conf.xml
-start /MIN versionserver.exe conf/version_conf.xml
+for %%F in (audio_conf.xml login_conf.xml db_conf.xml gs_conf.xml gate_conf.xml ms_conf.xml ctrl_conf.xml version_conf.xml) do (
+    if not exist "%EXE_DIR%\conf\%%F" (
+        echo [MISSING] exe\conf\%%F
+        set "MISSING=1"
+    )
+)
 
-REM Возврат в корневую директорию
-cd ..
+if "%MISSING%"=="1" (
+    echo.
+    echo ERROR: Required server files are missing. No server process was started.
+    echo Restore the original build artifacts or compile the missing server binaries.
+    exit /b 1
+)
 
-goto exitpoint
+pushd "%EXE_DIR%" || exit /b 1
+echo Starting server processes...
+start "DNM Audio" /MIN audioserver.exe conf/audio_conf.xml
+start "DNM Login" /MIN loginserver.exe conf/login_conf.xml
+start "DNM Database" /MIN dbserver.exe conf/db_conf.xml
+start "DNM Game" /MIN gameserver.exe conf/gs_conf.xml
+start "DNM Gate" /MIN gateserver.exe conf/gate_conf.xml
+start "DNM Master" /MIN masterserver.exe conf/ms_conf.xml
+start "DNM Control" /MIN controlserver.exe conf/ctrl_conf.xml
+start "DNM Version" /MIN versionserver.exe conf/version_conf.xml
+popd
 
-echo "无法查询到你的服务器ID"
-echo "服务器开启失败"
-
-REM Пауза на 2 секунды (закомментировано)
-REM ping 127.0.0.1 -n 2 > nul 
-
-:exitpoint
+echo Startup commands submitted. Check each server log and listening port.
+exit /b 0
