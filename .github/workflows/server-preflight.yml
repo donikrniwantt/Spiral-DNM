@@ -3,7 +3,7 @@ name: Server preflight checks
 on:
   push:
     branches:
-      - fix/runtime-preflight-and-lfs
+      - fix/runtime-preflight-review
   pull_request:
 
 jobs:
@@ -18,10 +18,10 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Compile restore utility
-        run: python -m py_compile GitCompression/RestoreLFS.py
+      - name: Compile LFS utilities
+        run: python -m py_compile GitCompression/CompressLFS.py GitCompression/RestoreLFS.py
 
-      - name: Run restore utility tests
+      - name: Run LFS utility tests
         run: python -m unittest discover -s GitCompression -p "test_*.py" -v
 
       - name: Validate server XML configurations
