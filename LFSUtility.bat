@@ -7,7 +7,11 @@ set "PYTHON_PATH=python"
 set "RESULT=0"
 
 if not exist "%GIT_COMPRESSION_DIR%\RestoreLFS.py" (
-    echo GitCompression scripts not found.
+    echo RestoreLFS.py not found.
+    exit /b 1
+)
+if not exist "%GIT_COMPRESSION_DIR%\CompressLFS.py" (
+    echo CompressLFS.py not found.
     exit /b 1
 )
 
