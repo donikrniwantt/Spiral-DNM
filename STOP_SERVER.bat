@@ -1,19 +1,9 @@
+@echo off
+setlocal EnableExtensions
 
-taskkill /F /IM gateserver.exe
-taskkill /F /IM logserver.exe
-taskkill /F /IM audioserver.exe
-taskkill /F /IM gmserver.exe
-taskkill /F /IM loginserver.exe
-taskkill /F /IM versionserver.exe
-
-timeout /t 2 /nobreak > nul 
-
-taskkill /F /IM gameserver.exe
-
-timeout /t 2 /nobreak > nul 
-
-taskkill /F /IM masterserver.exe
-taskkill /F /IM controlserver.exe
-
-timeout /t 1 /nobreak > nul 
-taskkill /F /IM dbserver.exe
+echo Stopping Dragon Nest Mobile server processes...
+for %%F in (gateserver.exe audioserver.exe loginserver.exe versionserver.exe gameserver.exe masterserver.exe controlserver.exe dbserver.exe) do (
+    taskkill /F /IM %%F >nul 2>&1
+)
+echo Stop commands completed.
+exit /b 0

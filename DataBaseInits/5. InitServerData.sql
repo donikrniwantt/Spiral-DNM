@@ -9,13 +9,25 @@ INSERT INTO gateinfo (
     (4, 0, 6, 1, 'Server 4', 'Zone A', '127.0.0.1:10110', '', 100, 10, '2023-10-01 12:00:00', '2023-10-02 14:30:00', 0, 0),
     (5, 0, 6, 1, 'Server 5', 'Zone A', '127.0.0.1:10110', '', 100, 10, '2023-10-01 12:00:00', '2023-10-02 14:30:00', 0, 0),
     (6, 0, 6, 1, 'Server 6', 'Zone A', '127.0.0.1:10110', '', 100, 10, '2023-10-01 12:00:00', '2023-10-02 14:30:00', 0, 0),
-    (7, 0, 6, 1, 'Server 7', 'Zone A', '127.0.0.1:10110', '', 100, 10, '2023-10-09 11:00:00', '2023-10-10 20:00:00', 0, 0);
+    (7, 0, 6, 1, 'Server 7', 'Zone A', '127.0.0.1:10110', '', 100, 10, '2023-10-09 11:00:00', '2023-10-10 20:00:00', 0, 0)
+ON DUPLICATE KEY UPDATE
+    `server_name` = VALUES(`server_name`),
+    `zone_name` = VALUES(`zone_name`),
+    `ipaddr` = VALUES(`ipaddr`),
+    `is_open` = VALUES(`is_open`);
 
 INSERT INTO users (`userid`, `password`) VALUES
-    ('depdep', 'spiraldnm');
+    ('depdep', 'spiraldnm')
+ON DUPLICATE KEY UPDATE `password` = VALUES(`password`);
 
-INSERT INTO selfserver (`userid`, `serverid`, `level`, `time`) VALUES
-    ('depdep', 1, 10, '2023-10-01 12:00:00');
+INSERT INTO selfserver (`userid`, `serverid`, `level`, `time`)
+SELECT 'depdep', 1, 10, '2023-10-01 12:00:00'
+WHERE NOT EXISTS (
+    SELECT 1 FROM selfserver WHERE `userid` = 'depdep' AND `serverid` = 1
+);
 
-INSERT INTO gmaccount (`account`) VALUES
-    ('gm1');
+INSERT INTO gmaccount (`account`)
+SELECT 'gm1'
+WHERE NOT EXISTS (
+    SELECT 1 FROM gmaccount WHERE `account` = 'gm1'
+);
