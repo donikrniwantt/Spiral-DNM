@@ -71,8 +71,8 @@ The following components are required to run the server:
 1. **Run the Client**  
    Go to the client-side project and launch the game.  
    - For a test login, use:  
-     - Username: `Test`  
-     - Password: `12345`  
+     - Username: `depdep`  
+     - Password: `spiraldnm`  
    - You can create additional accounts later.
    ![LoginScreen](Screenshots/LoginScreen.png)   
 
