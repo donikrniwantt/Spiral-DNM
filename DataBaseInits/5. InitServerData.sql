@@ -12,7 +12,7 @@ INSERT INTO gateinfo (
 	(7, 0, 6, 1, 'Server 7', 'Zone A', '127.0.0.1:10110', '', 100, 10, '2023-10-09 11:00:00', '2023-10-10 20:00:00', 0, 0);
 
 INSERT INTO users (`userid`, `password`) VALUES
-    ('Test', '12345');
+    ('depdep', 'spiraldnm');
 
 INSERT INTO selfserver (`userid`, `serverid`, `level`, `time`) VALUES
     ('Test', 1, 10, '2023-10-01 12:00:00');
