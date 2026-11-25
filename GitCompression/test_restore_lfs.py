@@ -56,10 +56,11 @@ class RestoreLFSTests(unittest.TestCase):
 
     def test_rejects_zip_path_traversal(self):
         archive_path = os.path.join(self.root, "data.bin.zip")
-        self._make_archive(archive_path, "../outside.txt", b"unsafe")
+        outside_name = os.path.basename(self.root) + "-outside.txt"
+        self._make_archive(archive_path, f"../{outside_name}", b"unsafe")
         with self.assertRaises(ValueError):
             RestoreLFS._restore_archive(archive_path, os.path.join(self.root, "data.bin"))
-        self.assertFalse(os.path.exists(os.path.join(os.path.dirname(self.root), "outside.txt")))
+        self.assertFalse(os.path.exists(os.path.join(os.path.dirname(self.root), outside_name)))
 
     def test_rejects_path_traversal_in_log(self):
         with self.assertRaises(ValueError):
