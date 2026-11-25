@@ -63,7 +63,7 @@ void DBCheckPasswordTask::FinishTask()
 
 	if (m_dbpassword != m_password)
 	{
-		LogWarn("userid [%s] password [%s] error", m_userid.c_str(), m_password.c_str());
+		LogWarn("password verification failed for userid [%s]", m_userid.c_str());
 
 		CUserData oUserData;
 		oUserData.m_dwUserData = 0;
