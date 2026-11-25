@@ -17,14 +17,11 @@ This is the server-side component for the **Dragon Nest Mobile** game. The code 
 ---
 
 ## Description
-
 The server-side component of **Dragon Nest Mobile** is responsible for handling game logic, storing data, and interacting with the client. The project has been partially refactored, and all necessary `.exe` files have been compiled, allowing the server to be run without additional compilation.
 
 ---
 
 ## Requirements
-
-The following components are required to run the server:
 - **MySQL 8.0**: Database server.
 - **Visual Studio 10 (C++ 10)**: For working with the server's source code (if modifications are needed).
 - **Python 3.12**: For running auxiliary scripts.
@@ -33,63 +30,36 @@ The following components are required to run the server:
 ---
 
 ## Server Setup
-
-1. **Extract Heavy Files**  
-   First, extract all heavy files using the `LFSUtility.bat` utility. Run this file from the project's root directory.
-   ![LFSUtility.bat](Screenshots/LFSUtility.png)
-
-2. **Configure MySQL**  
-   - Install and run the **MySQL 8.0** server.
-   - Set up the database connection with the following parameters:
-     - Address: `root@127.0.0.1`
-     - Password: `""` (empty password).  
-     If you want to use a password for your database, you will need to update the connection parameters in all `.xml` configuration files in /exe/conf/.  
-     ![MySQL Configuration](Screenshots/MySQLConfig.png)
-
-3. **Initialize the Database**  
-   - Run the `INITIALIZE_DATABASE.bat` file. This script will automatically create all necessary databases, game servers, and a default user.
-   - To explore or add additional servers or users, refer to the `DataBaseInits/5. InitServerData.sql` file.
-   ![INITIALIZE_DATABASE.bat](Screenshots/InitDataBase.png)
+1. **Extract Heavy Files**
+   Run `LFSUtility.bat` from the project root and choose option `1` to restore the files.
+2. **Configure MySQL**
+   Install and run MySQL 8.0. The sample configuration currently uses `root@127.0.0.1` with an empty password for isolated local testing only. For network deployment, create a dedicated database user with a strong password and update the database settings in `exe/conf/*.xml`.
+3. **Initialize the Database**
+   Run `INITIALIZE_DATABASE.bat`. It creates the required databases, server data, and the default test account. The seed account is `depdep` with password `spiraldnm`.
 
 ---
 
 ## Running the Server
-
-1. **Start the Server**  
-   After setting up the database, run the `START_SERVER.bat` file.  
-   - Eight `cmd` windows should appear, each handling a specific part of the server logic.  
-   - If fewer windows appear, check your MySQL configuration.
-   ![START_SERVER.bat](Screenshots/StartServer.png)
-
-2. **Verify Server Operation**  
-   If everything starts correctly, the server is ready to use.
+Run `START_SERVER.bat` after database initialization. It starts eight server processes in separate minimized command windows. Check each process log and confirm all required ports are listening before connecting a client.
 
 ---
 
 ## Client Connection
+Launch the matching Dragon Nest Mobile client build. For the local test account, use:
+- Username: `depdep`
+- Password: `spiraldnm`
 
-1. **Run the Client**  
-   Go to the client-side project and launch the game.  
-   - For a test login, use:  
-     - Username: `Test`  
-     - Password: `12345`  
-   - You can create additional accounts later.
-   ![LoginScreen](Screenshots/LoginScreen.png)   
-
-2. **Check Connection**  
-   Ensure that the client successfully connects to the server and transitions to the login screen.
-   ![LoginScreen](Screenshots/LoginScreen1.png)
+Successful startup and client login have not yet been verified on a live Windows/MySQL/client environment.
 
 ---
 
 ## Repository Links
-
 - **Client Repository**: [Dragon-Nest-Mobile-Client](https://github.com/MaximFonariuc/Dragon-Nest-Mobile-Client)
 - **Server Repository**: [Dragon-Nest-Mobile-Server](https://github.com/MaximFonariuc/Dragon-Nest-Mobile-Server)
 
 ---
 
 ## Notes
-
-- Ensure all dependencies are installed and configured correctly.
-- If you encounter issues running the server, check your MySQL settings and the correctness of the database setup.
+- Use the same client build expected by this server.
+- Keep GM administration listeners and MySQL private.
+- Do not expose administrative or database ports directly to the public internet.
