@@ -115,7 +115,7 @@ def restore_files(directory):
             artifacts_exist = (
                 os.path.exists(archive_path)
                 if not is_split
-                else os.path.exists(f"{archive_path}.part1")
+                else bool(_part_numbers(archive_path))
             )
             if artifacts_exist:
                 raise FileExistsError(
